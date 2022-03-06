@@ -1,17 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
-import { LogIn, ThumbsUp, Tool, TrendingUp } from 'react-feather';
+import { Modal } from 'react-bootstrap';
+import { LogIn, ThumbsUp, Tool, TrendingUp} from 'react-feather';
 import { NavLink } from 'react-router-dom';
-import { ReactComponent as Logo } from '../images/logo.svg';
+import Logo from '../images/dynasty_logo.png';
+import LoginModal from './LoginModal';
 
 const Navbar = () => {
 
     const [state, setState] = useState('');
+    const [modalOpen, setModalOpen] = useState(false)
     const mediaQ = useRef(window.matchMedia('(min-width: 46em) and (min-height: 36em)'));
 
     const checkMediaQ = () => {
         if (mediaQ.current.matches) setState('');
         else setState('mobile');
     };
+    
+
 
     useEffect(() => {
         checkMediaQ();
@@ -28,7 +33,7 @@ const Navbar = () => {
     return (
         <header className="main-nav">
             <div className="title-wrapper">
-                <Logo />
+                <img src={Logo} alt="Logo"/>
                 <p className="title">Dynasty Tools</p>
             </div>
 
@@ -55,10 +60,14 @@ const Navbar = () => {
                 </ul>
             </nav>
 
-            <button className="login-btn">
-                <LogIn />
+            <button className="login-btn" onClick={() => setModalOpen(true)}>
+                <LogIn/>   
                 { state !== 'mobile' && 'Login' }
             </button>
+            <Modal show={modalOpen} onHide={setModalOpen(false)}>
+                <LoginModal/>
+            </Modal>
+
         </header>
     )
 }
