@@ -1,24 +1,19 @@
-import React, { Component }  from 'react';
+import React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import { LogIn, ThumbsUp, Tool, TrendingUp} from 'react-feather';
+import { ThumbsUp, Tool, TrendingUp} from 'react-feather';
 import { NavLink } from 'react-router-dom';
+import AuthButton from './AuthButton';
 import Logo from '../images/dynasty_logo.png';
-import LoginModal from './LoginModal';
 
 const Navbar = () => {
 
     const [state, setState] = useState('');
-    const [modalOpen, setModalOpen] = useState(false)
     const mediaQ = useRef(window.matchMedia('(min-width: 46em) and (min-height: 36em)'));
 
     const checkMediaQ = () => {
         if (mediaQ.current.matches) setState('');
         else setState('mobile');
     };
-    
-
-
     useEffect(() => {
         checkMediaQ();
 
@@ -37,35 +32,29 @@ const Navbar = () => {
                 <img src={Logo} alt="Logo"/>
                 <p className="title">Dynasty Tools</p>
             </div>
-
             <nav>
                 <ul>
                     <li className="link">
                         <NavLink to="/vote">
                             <ThumbsUp />
-                            { state !== 'mobile' && 'Vote' }
+                            {state !== 'mobile' && 'Vote'}
                         </NavLink>
                     </li>
                     <li className="link">
                         <NavLink to="/rankings">
                             <TrendingUp />
-                            { state !== 'mobile' && 'Rankings' }
+                            {state !== 'mobile' && 'Rankings'}
                         </NavLink>
                     </li>
                     <li className="link">
                         <NavLink to="/calculator">
                             <Tool />
-                            { state !== 'mobile' && 'Calculator' }
+                            {state !== 'mobile' && 'Calculator'}
                         </NavLink>
                     </li>
                 </ul>
             </nav>
-
-            <button className="login-btn" onClick={() => setModalOpen(true)}>
-                <LogIn/>   
-                { state !== 'mobile' && 'Login' }
-            </button>
-
+            <AuthButton />
         </header>
     )
 }
