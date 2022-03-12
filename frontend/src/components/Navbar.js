@@ -1,8 +1,9 @@
-import React, { Component }  from 'react';
+import React, { Component } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { LogIn, ThumbsUp, Tool, TrendingUp } from 'react-feather';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as Logo } from '../images/logo.svg';
+import AuthButton from './AuthButton';
 
 const Navbar = () => {
 
@@ -13,7 +14,6 @@ const Navbar = () => {
         if (mediaQ.current.matches) setState('');
         else setState('mobile');
     };
-
     useEffect(() => {
         checkMediaQ();
 
@@ -38,28 +38,24 @@ const Navbar = () => {
                     <li className="link">
                         <NavLink to="/vote">
                             <ThumbsUp />
-                            { state !== 'mobile' && 'Vote' }
+                            {state !== 'mobile' && 'Vote'}
                         </NavLink>
                     </li>
                     <li className="link">
                         <NavLink to="/rankings">
                             <TrendingUp />
-                            { state !== 'mobile' && 'Rankings' }
+                            {state !== 'mobile' && 'Rankings'}
                         </NavLink>
                     </li>
                     <li className="link">
                         <NavLink to="/calculator">
                             <Tool />
-                            { state !== 'mobile' && 'Calculator' }
+                            {state !== 'mobile' && 'Calculator'}
                         </NavLink>
                     </li>
                 </ul>
             </nav>
-
-            <button className="login-btn">
-                <LogIn />
-                { state !== 'mobile' && 'Login' }
-            </button>
+            <AuthButton />
         </header>
     )
 }
