@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import { LogIn, ThumbsUp, Tool, TrendingUp} from 'react-feather';
+import { ThumbsUp, Tool, TrendingUp} from 'react-feather';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as Logo } from '../images/logo.svg';
 import AuthButton from './AuthButton';
@@ -10,7 +9,6 @@ import Logo from '../images/dynasty_logo.png';
 const Navbar = () => {
 
     const [state, setState] = useState('');
-    const [modalOpen, setModalOpen] = useState(false)
     const mediaQ = useRef(window.matchMedia('(min-width: 46em) and (min-height: 36em)'));
 
     const checkMediaQ = () => {
@@ -35,7 +33,6 @@ const Navbar = () => {
                 <img src={Logo} alt="Logo"/>
                 <p className="title">Dynasty Tools</p>
             </div>
-
             <nav>
                 <ul>
                     <li className="link">
