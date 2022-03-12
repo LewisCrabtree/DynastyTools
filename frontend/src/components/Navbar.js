@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { Modal } from 'react-bootstrap';
 import { LogIn, ThumbsUp, Tool, TrendingUp} from 'react-feather';
 import { NavLink } from 'react-router-dom';
 import Logo from '../images/dynasty_logo.png';
-import LoginModal from './LoginModal';
 
 const Navbar = () => {
 
     const [state, setState] = useState('');
-    const [modalOpen, setModalOpen] = useState(false)
     const mediaQ = useRef(window.matchMedia('(min-width: 46em) and (min-height: 36em)'));
 
     const checkMediaQ = () => {
@@ -60,7 +57,7 @@ const Navbar = () => {
                 </ul>
             </nav>
 
-            <button className="login-btn" onClick={() => setModalOpen(true)}>
+            <button className="login-btn">
                 <LogIn/>   
                 { state !== 'mobile' && 'Login' }
             </button>
