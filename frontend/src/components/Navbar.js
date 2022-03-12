@@ -64,9 +64,6 @@ const Navbar = () => {
                 <LogIn/>   
                 { state !== 'mobile' && 'Login' }
             </button>
-            <Modal show={modalOpen} onHide={setModalOpen(false)}>
-                <LoginModal/>
-            </Modal>
 
         </header>
     )
