@@ -2,7 +2,6 @@ import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { ThumbsUp, Tool, TrendingUp} from 'react-feather';
 import { NavLink } from 'react-router-dom';
-import { ReactComponent as Logo } from '../images/logo.svg';
 import AuthButton from './AuthButton';
 import Logo from '../images/dynasty_logo.png';
 
