@@ -9,7 +9,7 @@
 /coverage
 
 !*.any
-/build/static/*
+/build/*
 
 # misc
 .DS_Store
