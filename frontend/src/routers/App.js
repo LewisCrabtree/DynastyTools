@@ -1,7 +1,6 @@
 import Navbar from '../components/Navbar';
 import RankingsPage from '../pages/RankingsPage';
 import React from 'react';
-//React Imports
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import VotePage from '../pages/VotePage';
 

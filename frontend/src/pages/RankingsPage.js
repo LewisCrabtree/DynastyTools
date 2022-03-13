@@ -1,17 +1,16 @@
-import React, { Component }  from 'react';
+import React  from 'react';
 import { useCallback, useEffect, useState } from "react";
 import axios from 'axios';
 import { GET_RANKINGS } from '../constants/api-urls';
 import ButtonGroup from "../components/ButtonGroup";
 import PlayerCard from "../components/PlayerCard";
 import { Grid, List } from "react-feather";
-
-//Router stuff
+import { useAuth0 } from "@auth0/auth0-react";
 import { useSearchParams } from 'react-router-dom';
 
 const RankingsPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-
+    const { isAuthenticated, user } = useAuth0();
     const [error, setError] = useState(null);
     const [pos, setPos] = useState(searchParams.get('position'));
     const [rankings, setPlayers] = useState();
@@ -29,7 +28,8 @@ const RankingsPage = () => {
     ]
 
     const getRankings = useCallback(() => {
-        axios.get(`${GET_RANKINGS}${'?username=Global'}${pos ? `&position=${pos}` :''}`).then(res => {
+        var Username = isAuthenticated ? user.nickname : "Global";
+        axios.get(`${GET_RANKINGS}${`?username=${Username}`}${pos ? `&position=${pos}` :''}`).then(res => {
             setPlayers(res.data);
         }).catch(() => {
             console.log("err")

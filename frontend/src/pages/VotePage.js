@@ -1,27 +1,28 @@
-import React, { Component }  from 'react';
+import React from 'react';
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { NEXT_MATCHUP, INSERT_MATCHUP } from '../constants/api-urls';
 import PlayerCard from '../components/PlayerCard';
 import ButtonGroup from "../components/ButtonGroup";
 import { ThumbsUp } from 'react-feather';
+import { useAuth0 } from "@auth0/auth0-react";
 
 //Router stuff
 import { useSearchParams } from 'react-router-dom';
 
 const VotePage = () => {
+    const {isValidated, user} = useAuth0();
     const [searchParams, setSearchParams] = useSearchParams();
-
     const [error, setError] = useState();
     const [matchUp, setMatchUp] = useState(null);
     const [pos, setPos] = useState(searchParams.get('position'));
     const [submitting, setSubmitting] = useState();
 
-    const POSITION_BUTTONS = [{label: 'All', value: 'All'}, 
-                                {label: 'QB', value: 'QB'},
-                                {label: 'RB', value: 'RB'},
-                                {label: 'WR', value: 'WR'},
-                                {label: 'TE', value: 'TE'}];
+    const POSITION_BUTTONS = [{ label: 'All', value: 'All' },
+                                { label: 'QB', value: 'QB' },
+                                { label: 'RB', value: 'RB' },
+                                { label: 'WR', value: 'WR' },
+                                { label: 'TE', value: 'TE' }];
 
     const nextMatchUp = useCallback(() => {
         axios.get(`${NEXT_MATCHUP}${`?username=Global`}${pos ? `&position=${pos}` :''}`).then(res => {
@@ -31,10 +32,9 @@ const VotePage = () => {
             setError('Oops! It looks like we\'re having trouble creating match ups. Please try again later.');
             setSubmitting(false);
         });
-
     }, [pos]);
 
-    
+
     useEffect(() => {
         nextMatchUp();
     }, [pos, nextMatchUp])
@@ -46,8 +46,10 @@ const VotePage = () => {
     const submitVote = (result) => {
         if (submitting) return;
 
-        let data = {...matchUp};
+        let data = { ...matchUp };
         data.Result = result;
+        if (isValidated && user?.nickname != null)
+            data.Username = user.nickname;
 
         setSubmitting(true);
         axios.post(INSERT_MATCHUP, data).then(() => {
@@ -61,21 +63,21 @@ const VotePage = () => {
             <p>Cast your vote below!</p>
 
             <div className="vote-wrapper">
-                
-                <ButtonGroup 
-                    buttons={POSITION_BUTTONS} 
-                    defaultValue="All" 
-                    onChange={(pos) => setSearchParams({...searchParams, position: pos})} 
-                    label="Choose A Position" 
+
+                <ButtonGroup
+                    buttons={POSITION_BUTTONS}
+                    defaultValue="All"
+                    onChange={(pos) => setSearchParams({ ...searchParams, position: pos })}
+                    label="Choose A Position"
                     value={pos ? pos : 'All'}
                 />
 
                 {
-                    (error && ( <h2>{error}</h2> )) 
-                    || (matchUp && ( 
+                    (error && (<h2>{error}</h2>))
+                    || (matchUp && (
                         <>
-                            <button 
-                                className={`vote-button`} 
+                            <button
+                                className={`vote-button`}
                                 aria-label={`Cast your vote for ${matchUp.Ranking1.Player.Name}`}
                                 onClick={() => submitVote(true)}
                                 disabled={submitting}>
@@ -83,8 +85,8 @@ const VotePage = () => {
                                     <ThumbsUp className="vote-icon" />
                                 </PlayerCard>
                             </button>
-                            <button 
-                                className={`vote-button`} 
+                            <button
+                                className={`vote-button`}
                                 aria-label={`Cast your vote for ${matchUp.Ranking2.Player.Name}`}
                                 onClick={() => submitVote(false)}
                                 disabled={submitting}>
@@ -93,9 +95,9 @@ const VotePage = () => {
                                 </PlayerCard>
                             </button>
                         </>))
-                    || ( <div id="matchup-loader">
-                            loading...
-                        </div> )
+                    || (<div id="matchup-loader">
+                        loading...
+                    </div>)
                 }
             </div>
         </section>
