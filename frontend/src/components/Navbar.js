@@ -43,7 +43,13 @@ const Navbar = () => {
                     <li className="link">
                         <NavLink to="/rankings">
                             <TrendingUp />
-                            {state !== 'mobile' && 'Rankings'}
+                            {state !== 'mobile' && 'Global Rankings'}
+                        </NavLink>
+                    </li>
+                    <li className="link">
+                        <NavLink to="/myrankings">
+                            <TrendingUp />
+                            {state !== 'mobile' && 'My Rankings'}
                         </NavLink>
                     </li>
                     <li className="link">

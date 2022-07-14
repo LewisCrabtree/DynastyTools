@@ -8,7 +8,7 @@ import { Grid, List } from "react-feather";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSearchParams } from 'react-router-dom';
 
-const RankingsPage = () => {
+const RankingsPage = (props) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const { isAuthenticated, user } = useAuth0();
     const [error, setError] = useState(null);
@@ -28,7 +28,7 @@ const RankingsPage = () => {
     ]
 
     const getRankings = useCallback(() => {
-        var Username = isAuthenticated ? user.nickname : "Global";
+        var Username = props.personalrankings ? user.nickname : "Global";
         axios.get(`${GET_RANKINGS}${`?username=${Username}`}${pos ? `&position=${pos}` :''}`).then(res => {
             setPlayers(res.data);
         }).catch(() => {
